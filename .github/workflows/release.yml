@@ -1,0 +1,31 @@
+# Pushing a version tag (e.g. v1.0.0) builds, lints and tests, then publishes a GitHub
+# release with install.ps1, change-tv.ps1 and uninstall.ps1 attached. The README's
+# ".../releases/latest/download/..." commands always fetch the newest release.
+name: Release
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install PSScriptAnalyzer and Pester
+        shell: powershell
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer, Pester -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Build, lint and test (and check the version matches the tag)
+        shell: powershell
+        run: .\tools\check.ps1 -Release
+      - name: Publish the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create $env:GITHUB_REF_NAME dist/install.ps1 dist/change-tv.ps1 dist/uninstall.ps1 `
+            --title "ATV Companion $env:GITHUB_REF_NAME" --generate-notes

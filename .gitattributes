@@ -1,0 +1,5 @@
+# Keep Windows line endings for scripts in every checkout.
+* text=auto
+*.ps1  text eol=crlf
+*.psd1 text eol=crlf
+*.cs   text eol=crlf

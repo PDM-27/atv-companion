@@ -1,0 +1,9 @@
+# Built release files (made by build.ps1, published by the release workflow)
+dist/
+# Local copies of PSScriptAnalyzer and Pester (see README "Development")
+.tools/
+
+# Local only (not published): the original hand-off prompt, the chat prototype, and notes about the developer's PC
+KICKOFF.md
+reference/
+CLAUDE.md

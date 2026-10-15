@@ -1,0 +1,20 @@
+# Build, lint (PSScriptAnalyzer) and test (Pester) on every push and pull request,
+# in Windows PowerShell 5.1 - the version ATV Companion runs in.
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install PSScriptAnalyzer and Pester
+        shell: powershell
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer, Pester -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Build, lint and test
+        shell: powershell
+        run: .\tools\check.ps1

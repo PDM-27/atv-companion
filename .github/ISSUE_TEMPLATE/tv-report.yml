@@ -1,0 +1,54 @@
+name: TV report (works or doesn't)
+description: Tell us how ATV Companion works with your TV. Reports that it works are just as useful.
+labels: ["tv report"]
+body:
+  - type: input
+    id: tv
+    attributes:
+      label: TV brand and model
+      placeholder: e.g. TCL QM7K
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: TV software
+      description: Settings > System > About (e.g. "Android TV 14" or "Google TV 12")
+  - type: dropdown
+    id: install
+    attributes:
+      label: Install type
+      options:
+        - Full install (administrator)
+        - Limited install
+    validations:
+      required: true
+  - type: checkboxes
+    id: works
+    attributes:
+      label: What works?
+      options:
+        - label: The TV turns off when the PC sleeps
+        - label: The TV turns on when the PC wakes
+        - label: The TV turns off when the PC shuts down
+        - label: The TV turns on at the sign-in screen after power-on (full install)
+        - label: The TV turns off and on with the display (idle timeout)
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened?
+      description: Anything that didn't work as expected, and roughly when it happened.
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: |
+        Full install: C:\ProgramData\ATVCompanion\log.txt
+        Limited install: %LOCALAPPDATA%\ATVCompanion\log.txt
+        Paste the lines around the problem (you can blank out IP and MAC addresses).
+      render: text
+  - type: input
+    id: pc
+    attributes:
+      label: PC
+      description: Windows version, and Wi-Fi or Ethernet
